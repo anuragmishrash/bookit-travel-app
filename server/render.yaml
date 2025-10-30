@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: bookit-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://lordgameranurag:987654321Anu@cluster0.lfpl7c7.mongodb.net/Highway_Delite?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://bookit-travel.vercel.app
+    healthCheckPath: /api/health
