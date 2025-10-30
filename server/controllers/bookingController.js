@@ -128,15 +128,43 @@ export const createBooking = async (req, res, next) => {
     const expectedTotal = expectedSubtotal + expectedTaxes - expectedDiscount
 
     // Validate provided pricing
+    console.log('💰 Pricing validation:', {
+      provided: pricing,
+      expected: {
+        subtotal: expectedSubtotal,
+        taxes: expectedTaxes,
+        discount: expectedDiscount,
+        total: expectedTotal
+      },
+      promoCode: promoCode
+    })
+    
     if (Math.abs(pricing.subtotal - expectedSubtotal) > 0.01 ||
         Math.abs(pricing.taxes - expectedTaxes) > 0.01 ||
         Math.abs(pricing.discount - expectedDiscount) > 0.01 ||
         Math.abs(pricing.total - expectedTotal) > 0.01) {
+      
+      console.log('❌ Pricing mismatch details:', {
+        subtotalDiff: Math.abs(pricing.subtotal - expectedSubtotal),
+        taxesDiff: Math.abs(pricing.taxes - expectedTaxes),
+        discountDiff: Math.abs(pricing.discount - expectedDiscount),
+        totalDiff: Math.abs(pricing.total - expectedTotal)
+      })
+      
       return res.status(400).json({
         success: false,
         error: {
           message: 'Pricing calculation mismatch',
-          code: 'PRICING_MISMATCH'
+          code: 'PRICING_MISMATCH',
+          details: {
+            provided: pricing,
+            expected: {
+              subtotal: expectedSubtotal,
+              taxes: expectedTaxes,
+              discount: expectedDiscount,
+              total: expectedTotal
+            }
+          }
         }
       })
     }
