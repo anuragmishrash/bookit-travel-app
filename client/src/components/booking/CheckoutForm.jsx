@@ -69,9 +69,16 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
           time: bookingData.time,
           quantity: bookingData.quantity
         },
-        pricing: finalPricing,
-        promoCode: appliedPromoCode
+        pricing: {
+          subtotal: finalPricing.subtotal,
+          taxes: finalPricing.taxes,
+          discount: finalPricing.discount || 0,
+          total: finalPricing.total
+        },
+        promoCode: appliedPromoCode || null
       }
+
+      console.log('Booking payload:', JSON.stringify(bookingPayload, null, 2))
 
       // Submit booking
       const response = await bookingAPI.create(bookingPayload)

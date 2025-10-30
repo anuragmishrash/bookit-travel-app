@@ -26,8 +26,10 @@ const CheckoutPage = () => {
   }, [])
 
   const handleBookingComplete = (result) => {
-    // Clear booking data from localStorage
-    localStorage.removeItem('bookit_booking_data')
+    // Only clear booking data if booking was successful
+    if (result.success) {
+      localStorage.removeItem('bookit_booking_data')
+    }
     
     // Navigate to confirmation page with result
     navigate('/confirmation', { 
@@ -39,6 +41,7 @@ const CheckoutPage = () => {
   }
 
   const handleBackToExperience = () => {
+    // Don't clear booking data when going back
     if (bookingData?.experienceId) {
       navigate(`/experience/${bookingData.experienceId}`)
     } else {

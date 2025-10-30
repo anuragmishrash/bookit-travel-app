@@ -6,6 +6,25 @@ import PromoCode from '../models/PromoCode.js'
 // Load environment variables
 dotenv.config()
 
+// Helper function to generate future dates
+const generateFutureSlots = (timeSlots) => {
+  const slots = []
+  const today = new Date()
+  
+  // Generate slots for next 30 days
+  for (let i = 1; i <= 30; i++) {
+    const futureDate = new Date(today)
+    futureDate.setDate(today.getDate() + i)
+    
+    slots.push({
+      date: futureDate,
+      times: timeSlots.map(slot => ({ ...slot }))
+    })
+  }
+  
+  return slots
+}
+
 // Sample experience data matching Figma designs
 const experiencesData = [
   {
@@ -25,53 +44,12 @@ const experiencesData = [
       'Scenic route guidance',
       'Safety briefing'
     ],
-    availableSlots: [
-      {
-        date: new Date('2025-11-15'),
-        times: [
-          { time: '07:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
-          { time: '09:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
-          { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 3 },
-          { time: '01:00 pm', available: false, maxCapacity: 8, currentBookings: 8 }
-        ]
-      },
-      {
-        date: new Date('2025-11-16'),
-        times: [
-          { time: '07:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '09:00 am', available: true, maxCapacity: 8, currentBookings: 2 },
-          { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 1 },
-          { time: '01:00 pm', available: true, maxCapacity: 8, currentBookings: 0 }
-        ]
-      },
-      {
-        date: new Date('2025-11-17'),
-        times: [
-          { time: '07:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '09:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '01:00 pm', available: true, maxCapacity: 8, currentBookings: 0 }
-        ]
-      },
-      {
-        date: new Date('2025-11-18'),
-        times: [
-          { time: '07:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '09:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '01:00 pm', available: true, maxCapacity: 8, currentBookings: 0 }
-        ]
-      },
-      {
-        date: new Date('2025-11-19'),
-        times: [
-          { time: '07:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '09:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 0 },
-          { time: '01:00 pm', available: true, maxCapacity: 8, currentBookings: 0 }
-        ]
-      }
-    ],
+    availableSlots: generateFutureSlots([
+      { time: '07:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
+      { time: '09:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
+      { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 3 },
+      { time: '01:00 pm', available: false, maxCapacity: 8, currentBookings: 8 }
+    ]),
     rating: 4.8,
     reviewCount: 124
   },
@@ -92,29 +70,10 @@ const experiencesData = [
       'Light refreshments',
       'Entry tickets'
     ],
-    availableSlots: [
-      {
-        date: new Date('2025-11-15'),
-        times: [
-          { time: '04:30 am', available: true, maxCapacity: 12, currentBookings: 5 },
-          { time: '05:00 am', available: true, maxCapacity: 12, currentBookings: 3 }
-        ]
-      },
-      {
-        date: new Date('2025-11-16'),
-        times: [
-          { time: '04:30 am', available: true, maxCapacity: 12, currentBookings: 0 },
-          { time: '05:00 am', available: true, maxCapacity: 12, currentBookings: 0 }
-        ]
-      },
-      {
-        date: new Date('2025-11-17'),
-        times: [
-          { time: '04:30 am', available: true, maxCapacity: 12, currentBookings: 0 },
-          { time: '05:00 am', available: true, maxCapacity: 12, currentBookings: 0 }
-        ]
-      }
-    ],
+    availableSlots: generateFutureSlots([
+      { time: '04:30 am', available: true, maxCapacity: 12, currentBookings: 5 },
+      { time: '05:00 am', available: true, maxCapacity: 12, currentBookings: 3 }
+    ]),
     rating: 4.9,
     reviewCount: 89
   },
@@ -135,22 +94,10 @@ const experiencesData = [
       'Expert guide',
       'Transportation'
     ],
-    availableSlots: [
-      {
-        date: new Date('2025-11-15'),
-        times: [
-          { time: '09:00 am', available: true, maxCapacity: 10, currentBookings: 2 },
-          { time: '02:00 pm', available: true, maxCapacity: 10, currentBookings: 1 }
-        ]
-      },
-      {
-        date: new Date('2025-11-16'),
-        times: [
-          { time: '09:00 am', available: true, maxCapacity: 10, currentBookings: 0 },
-          { time: '02:00 pm', available: true, maxCapacity: 10, currentBookings: 0 }
-        ]
-      }
-    ],
+    availableSlots: generateFutureSlots([
+      { time: '09:00 am', available: true, maxCapacity: 10, currentBookings: 2 },
+      { time: '02:00 pm', available: true, maxCapacity: 10, currentBookings: 1 }
+    ]),
     rating: 4.7,
     reviewCount: 156
   },
@@ -171,24 +118,11 @@ const experiencesData = [
       'Professional crew',
       'Safety briefing'
     ],
-    availableSlots: [
-      {
-        date: new Date('2025-11-15'),
-        times: [
-          { time: '10:00 am', available: true, maxCapacity: 15, currentBookings: 8 },
-          { time: '02:00 pm', available: true, maxCapacity: 15, currentBookings: 5 },
-          { time: '04:00 pm', available: true, maxCapacity: 15, currentBookings: 3 }
-        ]
-      },
-      {
-        date: new Date('2025-11-16'),
-        times: [
-          { time: '10:00 am', available: true, maxCapacity: 15, currentBookings: 0 },
-          { time: '02:00 pm', available: true, maxCapacity: 15, currentBookings: 0 },
-          { time: '04:00 pm', available: true, maxCapacity: 15, currentBookings: 0 }
-        ]
-      }
-    ],
+    availableSlots: generateFutureSlots([
+      { time: '10:00 am', available: true, maxCapacity: 15, currentBookings: 8 },
+      { time: '02:00 pm', available: true, maxCapacity: 15, currentBookings: 5 },
+      { time: '04:00 pm', available: true, maxCapacity: 15, currentBookings: 3 }
+    ]),
     rating: 4.6,
     reviewCount: 203
   },
@@ -209,17 +143,12 @@ const experiencesData = [
       'Video recording',
       'Certificate'
     ],
-    availableSlots: [
-      {
-        date: new Date('2025-11-15'),
-        times: [
-          { time: '10:00 am', available: true, maxCapacity: 6, currentBookings: 2 },
-          { time: '12:00 pm', available: true, maxCapacity: 6, currentBookings: 1 },
-          { time: '02:00 pm', available: true, maxCapacity: 6, currentBookings: 0 },
-          { time: '04:00 pm', available: true, maxCapacity: 6, currentBookings: 3 }
-        ]
-      }
-    ],
+    availableSlots: generateFutureSlots([
+      { time: '10:00 am', available: true, maxCapacity: 6, currentBookings: 2 },
+      { time: '12:00 pm', available: true, maxCapacity: 6, currentBookings: 1 },
+      { time: '02:00 pm', available: true, maxCapacity: 6, currentBookings: 0 },
+      { time: '04:00 pm', available: true, maxCapacity: 6, currentBookings: 3 }
+    ]),
     rating: 4.9,
     reviewCount: 67
   }
