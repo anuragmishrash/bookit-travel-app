@@ -2,6 +2,12 @@
 
 A complete end-to-end travel booking web application built with React frontend and Node.js backend. Users can explore travel experiences, select available slots, and complete bookings with a seamless user experience matching the provided Figma designs exactly.
 
+## 🌐 Live Demo
+
+**🔗 [View Live Application](https://bookit-travel-app.vercel.app/)**
+
+Experience the full booking flow with real-time slot availability, promo code validation, and seamless checkout process.
+
 ## 🚀 Features
 
 - **Experience Discovery**: Browse and search travel experiences with filtering
@@ -251,6 +257,29 @@ bookit-travel-booking/
 - **Mongoose**: MongoDB object modeling
 - **Express Validator**: Request validation
 - **React Hook Form**: Performant form library
+
+## � Dieployment
+
+### Live Application
+- **Frontend**: Deployed on [Vercel](https://bookit-travel-app.vercel.app/)
+- **Backend**: Deployed on Railway
+- **Database**: MongoDB Atlas (Cloud)
+
+### Available Features in Live Demo
+- ✅ Browse 8 travel experiences with authentic images
+- ✅ Real-time slot availability (4 days of bookings)
+- ✅ Working promo codes: `SAVE10`, `FLAT100`, `WELCOME20`
+- ✅ Complete booking flow with validation
+- ✅ Responsive design matching Figma specifications
+- ✅ Error handling and user feedback
+
+### Test the Application
+1. Visit [https://bookit-travel-app.vercel.app/](https://bookit-travel-app.vercel.app/)
+2. Browse experiences and click "View Details"
+3. Select available date and time slots
+4. Fill booking information
+5. Apply promo code (try `SAVE10` for 10% off)
+6. Complete the booking process
 
 ## 📄 License
 
