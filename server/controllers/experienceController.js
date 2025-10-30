@@ -12,8 +12,8 @@ export const getExperiences = async (req, res, next) => {
       minPrice, 
       maxPrice, 
       search,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
+      sortBy = 'displayOrder',
+      sortOrder = 'asc',
       page = 1,
       limit = 20
     } = req.query

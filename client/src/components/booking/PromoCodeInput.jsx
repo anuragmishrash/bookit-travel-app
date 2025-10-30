@@ -32,7 +32,10 @@ const PromoCodeInput = ({
         experienceId
       )
 
-      const { discountAmount } = response.data
+      const discountAmount = response.data.orderSummary?.discountAmount || response.data.promoCode?.discountAmount || 0
+      
+      console.log('Promo API response:', response.data)
+      console.log('Extracted discount amount:', discountAmount)
       
       setSuccess({
         message: `Promo code applied! You saved ${formatCurrency(discountAmount)}`,

@@ -71,3 +71,9 @@ app.listen(PORT, () => {
   console.log(`🚀 BookIt server running on port ${PORT}`)
   console.log(`📊 Health check: http://localhost:${PORT}/api/health`)
 })
+
+
+
+
+
+

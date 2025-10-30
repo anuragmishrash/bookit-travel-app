@@ -44,7 +44,8 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
   })
 
   const handlePromoApplied = (discount, promoCode) => {
-    console.log('Promo applied:', { discount, promoCode })
+    console.log('Promo applied - discount amount:', discount, 'type:', typeof discount)
+    console.log('Promo applied - promo code:', promoCode)
     setPromoDiscount(discount)
     setAppliedPromoCode(promoCode)
   }

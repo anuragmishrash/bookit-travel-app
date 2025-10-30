@@ -13,8 +13,8 @@ const generateFutureSlots = (timeSlots) => {
   
   console.log(`📅 Generating slots starting from: ${today.toDateString()}`)
   
-  // Generate slots for next 30 days
-  for (let i = 1; i <= 30; i++) {
+  // Generate slots for next 4 days
+  for (let i = 1; i <= 4; i++) {
     const futureDate = new Date(today)
     futureDate.setDate(today.getDate() + i)
     
@@ -28,18 +28,20 @@ const generateFutureSlots = (timeSlots) => {
   return slots
 }
 
-// Sample experience data matching Figma designs
+// Experience data matching EXACT Figma design layout
 const experiencesData = [
+  // TOP ROW - Position 1: Kayaking (Udupi) - ₹999
   {
     title: 'Kayaking',
-    description: 'Curated small-group experience. Certified guide. Safety first with gear included. Helmet and Life jackets along with an expert will accompany in kayaking.',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
     location: 'Udupi',
     price: 999,
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    image: '/images/Kayaking.jpg',
     category: 'water-sports',
     duration: '3 hours',
     minAge: 10,
     maxGroupSize: 8,
+    displayOrder: 1,
     includes: [
       'Safety equipment (helmet, life jacket)',
       'Professional guide',
@@ -56,16 +58,18 @@ const experiencesData = [
     rating: 4.8,
     reviewCount: 124
   },
+  // TOP ROW - Position 2: Nandi Hills Sunrise (Bangalore) - ₹899
   {
     title: 'Nandi Hills Sunrise',
-    description: 'Curated small-group experience. Certified guide. Safety first with gear included. Experience the breathtaking sunrise from Nandi Hills with professional photography.',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
     location: 'Bangalore',
     price: 899,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    image: '/images/Nandi Hills Sunrise.jpg',
     category: 'nature',
     duration: '4 hours',
     minAge: 8,
     maxGroupSize: 12,
+    displayOrder: 2,
     includes: [
       'Transportation from meeting point',
       'Professional guide',
@@ -80,16 +84,18 @@ const experiencesData = [
     rating: 4.9,
     reviewCount: 89
   },
+  // TOP ROW - Position 3: Coffee Trail (Coorg) - ₹1299
   {
     title: 'Coffee Trail',
-    description: 'Curated small-group experience. Certified guide. Safety first with gear included. Explore coffee plantations and learn about the coffee-making process.',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
     location: 'Coorg',
     price: 1299,
-    image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    image: '/images/Coffee Trail.jpg',
     category: 'cultural',
     duration: '5 hours',
     minAge: 12,
     maxGroupSize: 10,
+    displayOrder: 3,
     includes: [
       'Coffee plantation tour',
       'Coffee tasting session',
@@ -104,16 +110,72 @@ const experiencesData = [
     rating: 4.7,
     reviewCount: 156
   },
+  // TOP ROW - Position 4: Kayaking (Udupi, Karnataka) - ₹999
+  {
+    title: 'Kayaking',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
+    location: 'Udupi, Karnataka',
+    price: 999,
+    image: '/images/Kayaking 2.jpg',
+    category: 'water-sports',
+    duration: '3 hours',
+    minAge: 10,
+    maxGroupSize: 8,
+    displayOrder: 4,
+    includes: [
+      'Safety equipment (helmet, life jacket)',
+      'Professional guide',
+      'Basic kayaking training',
+      'Scenic route guidance',
+      'Safety briefing'
+    ],
+    availableSlots: generateFutureSlots([
+      { time: '07:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
+      { time: '09:00 am', available: false, maxCapacity: 8, currentBookings: 8 },
+      { time: '11:00 am', available: true, maxCapacity: 8, currentBookings: 3 },
+      { time: '01:00 pm', available: false, maxCapacity: 8, currentBookings: 8 }
+    ]),
+    rating: 4.8,
+    reviewCount: 124
+  },
+  // BOTTOM ROW - Position 5: Nandi Hills Sunrise (Bangalore) - ₹899
+  {
+    title: 'Nandi Hills Sunrise',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
+    location: 'Bangalore',
+    price: 899,
+    image: '/images/Nandi Hills Sunrise 2.jpg',
+    category: 'nature',
+    duration: '4 hours',
+    minAge: 8,
+    maxGroupSize: 12,
+    displayOrder: 5,
+    includes: [
+      'Transportation from meeting point',
+      'Professional guide',
+      'Sunrise photography session',
+      'Light refreshments',
+      'Entry tickets'
+    ],
+    availableSlots: generateFutureSlots([
+      { time: '04:30 am', available: true, maxCapacity: 12, currentBookings: 5 },
+      { time: '05:00 am', available: true, maxCapacity: 12, currentBookings: 3 }
+    ]),
+    rating: 4.9,
+    reviewCount: 89
+  },
+  // BOTTOM ROW - Position 6: Boat Cruise (Sunderban) - ₹999
   {
     title: 'Boat Cruise',
-    description: 'Curated small-group experience. Certified guide. Safety first with gear included. Enjoy a scenic boat cruise with stunning views and refreshments.',
-    location: 'Sunderbans',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
+    location: 'Sunderban',
     price: 999,
-    image: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    image: '/images/Boat Cruise .jpg',
     category: 'water-sports',
     duration: '2.5 hours',
     minAge: 6,
     maxGroupSize: 15,
+    displayOrder: 6,
     includes: [
       'Boat cruise',
       'Life jackets',
@@ -129,16 +191,18 @@ const experiencesData = [
     rating: 4.6,
     reviewCount: 203
   },
+  // BOTTOM ROW - Position 7: Bunjee Jumping (Manali) - ₹999
   {
     title: 'Bunjee Jumping',
-    description: 'Curated small-group experience. Certified guide. Safety first with gear included. Experience the ultimate adrenaline rush with professional bungee jumping.',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
     location: 'Manali',
     price: 999,
-    image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    image: '/images/Bunjee Jumping.jpg',
     category: 'adventure',
     duration: '1 hour',
     minAge: 18,
     maxGroupSize: 6,
+    displayOrder: 7,
     includes: [
       'Professional equipment',
       'Safety harness',
@@ -154,6 +218,32 @@ const experiencesData = [
     ]),
     rating: 4.9,
     reviewCount: 67
+  },
+  // BOTTOM ROW - Position 8: Coffee Trail (Coorg) - ₹1299
+  {
+    title: 'Coffee Trail',
+    description: 'Curated small-group experience. Certified guide. Safety first with gear included.',
+    location: 'Coorg',
+    price: 1299,
+    image: '/images/Coffee Trail 2.jpg',
+    category: 'cultural',
+    duration: '5 hours',
+    minAge: 12,
+    maxGroupSize: 10,
+    displayOrder: 8,
+    includes: [
+      'Coffee plantation tour',
+      'Coffee tasting session',
+      'Traditional lunch',
+      'Expert guide',
+      'Transportation'
+    ],
+    availableSlots: generateFutureSlots([
+      { time: '09:00 am', available: true, maxCapacity: 10, currentBookings: 2 },
+      { time: '02:00 pm', available: true, maxCapacity: 10, currentBookings: 1 }
+    ]),
+    rating: 4.7,
+    reviewCount: 156
   }
 ]
 

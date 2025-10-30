@@ -58,10 +58,11 @@ const experienceSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Image URL is required'],
     validate: {
-      validator: function(v) {
-        return /^https?:\/\/.+/i.test(v)
+      validator: function (v) {
+        // Allow both URLs and local paths
+        return /^(https?:\/\/.+|\/images\/.+)$/i.test(v)
       },
-      message: 'Image must be a valid URL'
+      message: 'Image must be a valid URL or local path starting with /images/'
     }
   },
   category: {
@@ -107,6 +108,11 @@ const experienceSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: [0, 'Review count cannot be negative']
+  },
+  displayOrder: {
+    type: Number,
+    default: 0,
+    min: [0, 'Display order cannot be negative']
   }
 }, {
   timestamps: true,
@@ -115,73 +121,73 @@ const experienceSchema = new mongoose.Schema({
 })
 
 // Virtual for checking if experience has available slots
-experienceSchema.virtual('hasAvailableSlots').get(function() {
+experienceSchema.virtual('hasAvailableSlots').get(function () {
   if (!this.availableSlots || !Array.isArray(this.availableSlots)) {
     return false
   }
-  return this.availableSlots.some(slot => 
-    slot.times && Array.isArray(slot.times) && slot.times.some(time => 
+  return this.availableSlots.some(slot =>
+    slot.times && Array.isArray(slot.times) && slot.times.some(time =>
       time.available && time.currentBookings < time.maxCapacity
     )
   )
 })
 
 // Method to get available slots for a specific date
-experienceSchema.methods.getAvailableSlotsForDate = function(date) {
+experienceSchema.methods.getAvailableSlotsForDate = function (date) {
   const targetDate = new Date(date)
   targetDate.setHours(0, 0, 0, 0)
-  
+
   const slot = this.availableSlots.find(slot => {
     const slotDate = new Date(slot.date)
     slotDate.setHours(0, 0, 0, 0)
     return slotDate.getTime() === targetDate.getTime()
   })
-  
+
   if (!slot) return []
-  
-  return slot.times.filter(time => 
+
+  return slot.times.filter(time =>
     time.available && time.currentBookings < time.maxCapacity
   )
 }
 
 // Method to book a slot
-experienceSchema.methods.bookSlot = function(date, time, quantity = 1) {
+experienceSchema.methods.bookSlot = function (date, time, quantity = 1) {
   const targetDate = new Date(date)
   targetDate.setHours(0, 0, 0, 0)
-  
+
   const slotIndex = this.availableSlots.findIndex(slot => {
     const slotDate = new Date(slot.date)
     slotDate.setHours(0, 0, 0, 0)
     return slotDate.getTime() === targetDate.getTime()
   })
-  
+
   if (slotIndex === -1) {
     throw new Error('Date not available')
   }
-  
+
   const timeIndex = this.availableSlots[slotIndex].times.findIndex(t => t.time === time)
-  
+
   if (timeIndex === -1) {
     throw new Error('Time slot not found')
   }
-  
+
   const timeSlot = this.availableSlots[slotIndex].times[timeIndex]
-  
+
   if (!timeSlot.available) {
     throw new Error('Time slot is not available')
   }
-  
+
   if (timeSlot.currentBookings + quantity > timeSlot.maxCapacity) {
     throw new Error('Not enough capacity for this booking')
   }
-  
+
   this.availableSlots[slotIndex].times[timeIndex].currentBookings += quantity
-  
+
   // Mark as unavailable if fully booked
   if (this.availableSlots[slotIndex].times[timeIndex].currentBookings >= timeSlot.maxCapacity) {
     this.availableSlots[slotIndex].times[timeIndex].available = false
   }
-  
+
   return this.save()
 }
 
