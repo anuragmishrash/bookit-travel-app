@@ -81,10 +81,15 @@ const ExperienceDetails = ({ experience, onBookingSelect }) => {
         subtotal,
         taxes,
         total,
-        pricePerPerson: price
+        pricePerPerson: price,
+        discount: 0
       }
     }
 
+    console.log('Storing booking data:', bookingData)
+    // Store in localStorage immediately
+    localStorage.setItem('bookit_booking_data', JSON.stringify(bookingData))
+    
     onBookingSelect(bookingData)
   }
 

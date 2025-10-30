@@ -13,15 +13,19 @@ const CheckoutPage = () => {
     const storedData = localStorage.getItem('bookit_booking_data')
     
     if (!storedData) {
-      setError('No booking data found. Please select an experience first.')
+      // If no booking data, redirect to home instead of showing error
+      console.log('No booking data found, redirecting to home')
+      navigate('/')
       return
     }
 
     try {
       const data = JSON.parse(storedData)
+      console.log('Loaded booking data:', data)
       setBookingData(data)
     } catch (err) {
-      setError('Invalid booking data. Please try again.')
+      console.error('Error parsing booking data:', err)
+      navigate('/')
     }
   }, [])
 

@@ -11,6 +11,8 @@ const generateFutureSlots = (timeSlots) => {
   const slots = []
   const today = new Date()
   
+  console.log(`📅 Generating slots starting from: ${today.toDateString()}`)
+  
   // Generate slots for next 30 days
   for (let i = 1; i <= 30; i++) {
     const futureDate = new Date(today)
@@ -22,6 +24,7 @@ const generateFutureSlots = (timeSlots) => {
     })
   }
   
+  console.log(`📅 Generated ${slots.length} days of slots`)
   return slots
 }
 
