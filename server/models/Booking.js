@@ -185,8 +185,7 @@ bookingSchema.statics.findByExperienceAndDate = function(experienceId, date) {
   })
 }
 
-// Index for better query performance
-bookingSchema.index({ bookingId: 1 })
+// Index for better query performance (bookingId index removed due to unique: true)
 bookingSchema.index({ experienceId: 1, 'bookingDetails.date': 1 })
 bookingSchema.index({ 'customerInfo.email': 1 })
 bookingSchema.index({ status: 1 })
