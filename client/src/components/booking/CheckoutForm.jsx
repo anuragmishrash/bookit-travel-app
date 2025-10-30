@@ -22,13 +22,26 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
   const watchedFields = watch()
 
   // Calculate final pricing with promo discount
+  const subtotal = bookingData?.pricing?.subtotal || 0
+  const taxes = bookingData?.pricing?.taxes || 0
+  const discount = promoDiscount || 0
+  const calculatedTotal = subtotal + taxes - discount
+  
   const finalPricing = {
-    subtotal: bookingData.pricing.subtotal,
-    taxes: bookingData.pricing.taxes,
-    discount: promoDiscount,
-    total: bookingData.pricing.subtotal + bookingData.pricing.taxes - promoDiscount,
+    subtotal: subtotal,
+    taxes: taxes,
+    discount: discount,
+    total: calculatedTotal,
     promoCode: appliedPromoCode
   }
+  
+  console.log('Final pricing calculation:', {
+    subtotal,
+    taxes,
+    discount,
+    calculatedTotal,
+    originalBookingData: bookingData?.pricing
+  })
 
   const handlePromoApplied = (discount, promoCode) => {
     setPromoDiscount(discount)
@@ -58,7 +71,9 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
         throw new Error('Please agree to the terms and safety policy')
       }
 
-      // Prepare booking payload
+      // Prepare booking payload with guaranteed total
+      const guaranteedTotal = finalPricing.total || (finalPricing.subtotal + finalPricing.taxes - (finalPricing.discount || 0))
+      
       const bookingPayload = {
         experienceId: bookingData.experienceId,
         customerInfo: {
@@ -71,15 +86,16 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
           quantity: bookingData.quantity
         },
         pricing: {
-          subtotal: finalPricing.subtotal,
-          taxes: finalPricing.taxes,
+          subtotal: finalPricing.subtotal || 0,
+          taxes: finalPricing.taxes || 0,
           discount: finalPricing.discount || 0,
-          total: finalPricing.total
+          total: guaranteedTotal
         },
         promoCode: appliedPromoCode || null
       }
 
-      console.log('Booking payload:', JSON.stringify(bookingPayload, null, 2))
+      console.log('Booking payload with guaranteed total:', JSON.stringify(bookingPayload, null, 2))
+      console.log('Final pricing before payload:', finalPricing)
 
       // Submit booking
       const response = await bookingAPI.create(bookingPayload)

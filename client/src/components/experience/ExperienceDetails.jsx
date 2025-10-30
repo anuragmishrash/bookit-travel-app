@@ -48,6 +48,8 @@ const ExperienceDetails = ({ experience, onBookingSelect }) => {
   const subtotal = price * quantity
   const taxes = calculateTaxes(subtotal)
   const total = calculateTotal(subtotal, taxes)
+  
+  console.log('ExperienceDetails pricing:', { price, quantity, subtotal, taxes, total })
 
   // Handle date selection
   const handleDateSelect = (date) => {
@@ -78,9 +80,9 @@ const ExperienceDetails = ({ experience, onBookingSelect }) => {
       time: selectedTime,
       quantity,
       pricing: {
-        subtotal,
-        taxes,
-        total,
+        subtotal: subtotal,
+        taxes: taxes,
+        total: total,
         pricePerPerson: price,
         discount: 0
       }
