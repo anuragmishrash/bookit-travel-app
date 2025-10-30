@@ -225,11 +225,16 @@ const seedDatabase = async () => {
 
     console.log('🎉 Database seeded successfully!')
     
-    // Display summary
+    // Display summary with date info
     console.log('\n📊 Seeded Data Summary:')
     console.log('Experiences:')
     experiences.forEach(exp => {
+      const firstDate = exp.availableSlots?.[0]?.date
+      const lastDate = exp.availableSlots?.[exp.availableSlots.length - 1]?.date
       console.log(`  - ${exp.title} (${exp.location}) - ₹${exp.price}`)
+      if (firstDate && lastDate) {
+        console.log(`    Dates: ${new Date(firstDate).toDateString()} to ${new Date(lastDate).toDateString()}`)
+      }
     })
     
     console.log('\nPromo Codes:')

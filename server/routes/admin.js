@@ -37,26 +37,34 @@ router.post('/seed', async (req, res) => {
   }
 })
 
-// @desc    Clear and reseed database
+// @desc    Clear and reseed database with current dates
 // @route   POST /api/admin/reseed
 // @access  Public
 router.post('/reseed', async (req, res) => {
   try {
-    console.log('🔄 Reseeding database with fresh dates...')
+    const today = new Date()
+    console.log(`🔄 Reseeding database with fresh dates starting from: ${today.toDateString()}`)
     
     const Experience = (await import('../models/Experience.js')).default
     const PromoCode = (await import('../models/PromoCode.js')).default
     
     // Clear all data
+    console.log('🧹 Clearing existing experiences and promo codes...')
     await Experience.deleteMany({})
     await PromoCode.deleteMany({})
     
     // Reseed with current dates
+    console.log('🌱 Creating new data with current dates...')
     await seedDatabase()
+    
+    // Verify the dates were created correctly
+    const sampleExperience = await Experience.findOne()
+    const firstSlotDate = sampleExperience?.availableSlots?.[0]?.date
     
     res.status(200).json({
       success: true,
-      message: 'Database reseeded successfully with current dates'
+      message: `Database reseeded successfully with dates starting from ${today.toDateString()}`,
+      sampleDate: firstSlotDate ? new Date(firstSlotDate).toDateString() : 'No dates found'
     })
   } catch (error) {
     console.error('❌ Reseeding failed:', error)

@@ -5,10 +5,16 @@ const DatePicker = ({ availableSlots, selectedDate, onDateSelect }) => {
   const getAvailableDates = () => {
     if (!availableSlots) return []
     
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    
     return availableSlots
       .filter(slot => {
         const slotDate = new Date(slot.date)
-        return !isPastDate(slotDate) && slot.times.some(time => 
+        slotDate.setHours(0, 0, 0, 0)
+        
+        // Only show dates that are today or in the future
+        return slotDate >= today && slot.times.some(time => 
           time.available && time.currentBookings < time.maxCapacity
         )
       })

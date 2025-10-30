@@ -23,7 +23,8 @@ const CheckoutForm = ({ bookingData, onBookingComplete, onBack }) => {
 
   // Calculate final pricing with promo discount
   const finalPricing = {
-    ...bookingData.pricing,
+    subtotal: bookingData.pricing.subtotal,
+    taxes: bookingData.pricing.taxes,
     discount: promoDiscount,
     total: bookingData.pricing.subtotal + bookingData.pricing.taxes - promoDiscount,
     promoCode: appliedPromoCode
